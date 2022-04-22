@@ -1,6 +1,6 @@
-import 'dart:ui';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'model/builder.dart';
 import 'model/modal_theme.dart';
 import 'model/modal_config.dart';
@@ -981,7 +981,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           fontSize: 13.5,
           fontWeight: FontWeight.w500,
           color: widget.modalConfig.isFullPage == true
-              ? (theme.primaryColorBrightness == Brightness.dark
+              ? (theme.brightness == Brightness.dark
                   ? Colors.white
                   : theme.errorColor)
               : theme.errorColor,
@@ -1000,7 +1000,13 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   String? get title => widget.title ?? modalConfig.title;
 
   /// Returns [title] in `Text` widget
-  Widget get titleWidget => Text(title!);
+  Widget get titleWidget => Text(
+        title!,
+        style: const TextStyle(
+            fontSize: 14,
+            color: Color(0xFF074a86),
+            fontWeight: FontWeight.bold),
+      );
 
   /// Returns the modal widget
   Widget get modal {
@@ -1119,7 +1125,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       autofocus: true,
       controller: filter!.ctrl,
       style: TextStyle(color: Colors.black),
-      cursorColor: modalConfig.isFullPage ? Colors.black : theme.cursorColor,
+      cursorColor: modalConfig.isFullPage
+          ? Colors.black
+          : theme.textSelectionTheme.cursorColor,
       textInputAction: TextInputAction.search,
       decoration: InputDecoration.collapsed(
         hintText: modalConfig.filterHint ?? 'Search on $title',
@@ -1182,14 +1190,17 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           child: Padding(
             padding: modalConfig.confirmMargin ??
                 const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: FlatButton.icon(
+            child: TextButton.icon(
               icon: modalConfig.confirmIcon!,
               label: modalConfig.confirmLabel!,
-              color:
-                  modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
-              textColor: modalConfig.confirmIsLight
-                  ? modalConfig.confirmColor
-                  : Colors.white,
+              style: TextButton.styleFrom(
+                primary:
+                    modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
+                textStyle: TextStyle(
+                    color: modalConfig.confirmIsLight
+                        ? modalConfig.confirmColor
+                        : Colors.white),
+              ),
               onPressed: onPressed,
             ),
           ),
@@ -1199,14 +1210,17 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           child: Padding(
             padding: modalConfig.confirmMargin ??
                 const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: FlatButton(
+            child: TextButton(
               child: modalConfig.confirmLabel!,
-              color: modalConfig.confirmIsDark
-                  ? modalConfig.confirmColor ?? Colors.blueGrey
-                  : null,
-              textColor: modalConfig.confirmIsLight
-                  ? modalConfig.confirmColor
-                  : Colors.white,
+              style: TextButton.styleFrom(
+                primary: modalConfig.confirmIsDark
+                    ? modalConfig.confirmColor ?? Colors.blueGrey
+                    : null,
+                textStyle: TextStyle(
+                    color: modalConfig.confirmIsLight
+                        ? modalConfig.confirmColor
+                        : Colors.white),
+              ),
               onPressed: onPressed,
             ),
           ),
@@ -1242,7 +1256,8 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       primary: true,
       shape: modalHeaderStyle.shape,
       elevation: modalHeaderStyle.elevation,
-      brightness: modalHeaderStyle.brightness,
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarBrightness: modalHeaderStyle.brightness),
       backgroundColor: modalHeaderStyle.backgroundColor,
       actionsIconTheme: modalHeaderStyle.actionsIconTheme,
       iconTheme: modalHeaderStyle.iconTheme,

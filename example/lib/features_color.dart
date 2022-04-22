@@ -7,8 +7,6 @@ class FeaturesColor extends StatefulWidget {
 }
 
 class _FeaturesColorState extends State<FeaturesColor> {
-  Color? _themeColor = Colors.red;
-
   List<S2Choice<Color>> colors = S2Choice.listFrom<Color, Color>(
     source: Colors.primaries,
     value: (i, v) => v,

@@ -61,8 +61,7 @@ class S2ChipTheme extends StatelessWidget {
     final Color primaryColor = color ??
         (!isDark
             ? Theme.of(context).unselectedWidgetColor
-            : ChipTheme.of(context).backgroundColor ??
-                Theme.of(context).backgroundColor);
+            : ChipTheme.of(context).backgroundColor ?? Theme.of(context).backgroundColor);
     final Color backgroundColor = raised == true
         ? primaryColor
         : outlined == true
@@ -83,18 +82,13 @@ class S2ChipTheme extends StatelessWidget {
             ? secondaryColor.withAlpha(foregroundAlpha)
             : primaryColor.withAlpha(foregroundAlpha);
 
-    final TextStyle defaultLabelStyle = ChipTheme.of(context).labelStyle!;
-    final TextStyle primaryLabelStyle =
-        defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
+    final TextStyle defaultLabelStyle = Theme.of(context).textTheme.bodyText1!;
+    final TextStyle primaryLabelStyle = defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
     final TextStyle selectedLabelStyle = defaultLabelStyle
         .merge(labelStyle)
-        .copyWith(
-            color: raised == true
-                ? Colors.white
-                : secondaryColor.withAlpha(foregroundAlpha));
+        .copyWith(color: raised == true ? Colors.white : secondaryColor.withAlpha(foregroundAlpha));
 
-    final ShapeBorder? chipShapeRaised =
-        raised == true ? StadiumBorder() : null;
+    final ShapeBorder? chipShapeRaised = raised == true ? StadiumBorder() : null;
     final ShapeBorder? chipShapeOutlined = outlined == true
         ? StadiumBorder(
             side: BorderSide(

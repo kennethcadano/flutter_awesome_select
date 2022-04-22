@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import './group_style.dart';
 import './group_sort.dart';
 
@@ -49,9 +48,7 @@ class S2GroupConfig with Diagnosticable {
       useSelector: useSelector ?? this.useSelector,
       useCounter: useCounter ?? this.useCounter,
       sortBy: sortBy ?? this.sortBy,
-      headerStyle: headerStyle == null
-          ? this.headerStyle
-          : this.headerStyle.merge(headerStyle),
+      headerStyle: headerStyle == null ? this.headerStyle : this.headerStyle.merge(headerStyle),
     );
   }
 
