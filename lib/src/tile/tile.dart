@@ -9,7 +9,9 @@ class S2Tile<T> extends StatelessWidget {
   /// Called when the user taps this list tile.
   ///
   /// Inoperative if [enabled] is false.
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
+
+  final GestureLongPressCallback? onLongPress;
 
   /// The primary content of the list tile.
   final Widget title;
@@ -88,6 +90,7 @@ class S2Tile<T> extends StatelessWidget {
     Key? key,
     required this.value,
     required this.onTap,
+    this.onLongPress,
     required this.title,
     this.leading,
     this.trailing,
@@ -111,6 +114,7 @@ class S2Tile<T> extends StatelessWidget {
     Key? key,
     Widget? value,
     GestureTapCallback? onTap,
+    GestureLongPressCallback? onLongPress,
     Widget? title,
     bool? isError,
     bool? isLoading,
@@ -129,6 +133,7 @@ class S2Tile<T> extends StatelessWidget {
   })  : title = title ?? state.titleWidget,
         value = value ?? Text(state.selected.toString()),
         onTap = onTap ?? state.showModal,
+        onLongPress = onLongPress,
         isLoading = isLoading ?? state.selected?.isResolving ?? false,
         isError = isError ?? state.selected?.isNotValid ?? false,
         super(key: key);
@@ -164,6 +169,7 @@ class S2Tile<T> extends StatelessWidget {
       subtitle: isTwoLine && hideValue != true ? _valueWidget : null,
       trailing: _trailingWidget,
       onTap: onTap,
+      onLongPress: onLongPress,
     );
   }
 
